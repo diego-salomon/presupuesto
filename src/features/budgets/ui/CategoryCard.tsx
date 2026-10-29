@@ -27,7 +27,7 @@ export function CategoryCard({ summary }: { summary: CategorySummary }) {
       <div className="flex items-center justify-between text-xs">
         <span className="text-muted-foreground tabular-nums">{f.percent(summary.percent)}</span>
         {summary.overrun > 0 ? (
-          <span className="font-medium text-exceeded tabular-nums">{f.money(summary.overrun)} por encima</span>
+          <span className="font-medium text-exceeded-text tabular-nums">{f.money(summary.overrun)} por encima</span>
         ) : (
           <span className="text-muted-foreground tabular-nums">Quedan {f.money(summary.remaining)}</span>
         )}

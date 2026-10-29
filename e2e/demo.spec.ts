@@ -31,7 +31,8 @@ async function addExpense(page: Page, category: string, amount: string, date?: s
 
 test('add expense updates the category total and keeps an ok status', async ({ page }) => {
   await freshApp(page)
-  await expect(page.getByTestId('month-total')).toHaveText('$0')
+  // A fresh client sees the onboarding empty state, not a zeroed dashboard.
+  await expect(page.getByText('Aún no hay gastos')).toBeVisible()
 
   await addExpense(page, 'Servicios (luz, agua, internet)', '10000')
 

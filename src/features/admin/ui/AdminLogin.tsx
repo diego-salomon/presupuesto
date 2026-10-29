@@ -24,7 +24,7 @@ export function AdminLogin() {
 
   return (
     <Card className="mx-auto max-w-sm p-5">
-      <h2 className="text-xl font-bold">Administración</h2>
+      <h1 className="text-xl font-bold">Administración</h1>
       <p className="mt-1 text-sm text-muted-foreground">Área protegida para editar presupuestos.</p>
       <form onSubmit={submit} noValidate className="mt-4 flex flex-col gap-4">
         {admin.requiresEmail && (

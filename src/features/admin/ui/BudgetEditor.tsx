@@ -36,7 +36,7 @@ export function BudgetEditor() {
 
   return (
     <Card className="p-5">
-      <h3 className="text-lg font-semibold">Presupuestos por categoría</h3>
+      <h2 className="text-lg font-semibold">Presupuestos por categoría</h2>
       <p className="mt-1 text-sm text-muted-foreground">Montos enteros, sin decimales. Aplican a todos los meses.</p>
       <form onSubmit={save} noValidate className="mt-4 flex flex-col gap-4">
         {categories.map((category) => (
@@ -59,7 +59,7 @@ export function BudgetEditor() {
         <div className="flex items-center gap-3">
           <Button type="submit">Guardar presupuestos</Button>
           {saved && (
-            <span role="status" className="text-sm font-medium text-ok">
+            <span role="status" className="text-sm font-medium text-ok-text">
               Guardado
             </span>
           )}

@@ -1,11 +1,9 @@
 import type { Budgets, Category } from '@/features/budgets/domain/category'
 
-/** Brand colors as HSL triplets ("221 83% 53%") so they slot into `hsl(var(--token))`. */
+/** Brand color as HSL triplets ("221 83% 53%") so they slot into `hsl(var(--token))`. */
 export interface BrandPalette {
   primary: string
   primaryForeground: string
-  accent: string
-  accentForeground: string
 }
 
 export interface BrandContact {

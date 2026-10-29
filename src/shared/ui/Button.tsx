@@ -20,8 +20,9 @@ export function Button({
     <button
       type={type}
       className={cn(
-        'inline-flex min-h-11 items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors',
-        'disabled:pointer-events-none disabled:opacity-50',
+        'inline-flex min-h-11 items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium',
+        'transition-[color,background-color,opacity,transform] duration-100 active:scale-[0.98]',
+        'disabled:pointer-events-none disabled:opacity-50 disabled:active:scale-100',
         variants[variant],
         className,
       )}

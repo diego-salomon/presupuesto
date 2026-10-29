@@ -22,7 +22,7 @@ export function PreviousMonthPage() {
   return (
     <section className="flex flex-col gap-5">
       <header>
-        <h2 className="text-2xl font-bold tracking-tight">Mes anterior</h2>
+        <h1 className="text-2xl font-bold tracking-tight">Mes anterior</h1>
         <p className="text-sm text-muted-foreground">{previousName} · solo lectura.</p>
       </header>
 

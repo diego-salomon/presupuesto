@@ -10,13 +10,15 @@ export interface ExpenseFormProps {
   categories: readonly Category[]
   initial: ExpenseFormInput
   submitLabel: string
+  /** Currency symbol shown inside the amount field, so the unit is never ambiguous. */
+  currencySymbol: string
   onSubmit: (input: ExpenseFormInput) => Result<unknown, ExpenseField | 'general'>
   onCancel?: () => void
 }
 
 const EMPTY: Partial<Record<ExpenseField | 'general', string>> = {}
 
-export function ExpenseForm({ categories, initial, submitLabel, onSubmit, onCancel }: ExpenseFormProps) {
+export function ExpenseForm({ categories, initial, submitLabel, currencySymbol, onSubmit, onCancel }: ExpenseFormProps) {
   const [input, setInput] = useState<ExpenseFormInput>(initial)
   const [errors, setErrors] = useState(EMPTY)
 
@@ -53,15 +55,21 @@ export function ExpenseForm({ categories, initial, submitLabel, onSubmit, onCanc
       </Field>
 
       <Field label="Monto" htmlFor="amount" required error={errors.amount} hint="Solo números enteros, sin decimales.">
-        <Input
-          id="amount"
-          inputMode="numeric"
-          autoComplete="off"
-          value={input.amount}
-          onChange={(e) => set('amount', e.target.value)}
-          aria-invalid={!!errors.amount}
-          aria-describedby={errors.amount ? 'amount-error' : 'amount-hint'}
-        />
+        <div className="relative">
+          <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-sm text-muted-foreground" aria-hidden="true">
+            {currencySymbol}
+          </span>
+          <Input
+            id="amount"
+            inputMode="numeric"
+            autoComplete="off"
+            className="pl-9"
+            value={input.amount}
+            onChange={(e) => set('amount', e.target.value)}
+            aria-invalid={!!errors.amount}
+            aria-describedby={errors.amount ? 'amount-error' : 'amount-hint'}
+          />
+        </div>
       </Field>
 
       <Field label="Fecha" htmlFor="date" required error={errors.date}>
@@ -87,7 +95,7 @@ export function ExpenseForm({ categories, initial, submitLabel, onSubmit, onCanc
       </Field>
 
       {errors.general && (
-        <p role="alert" className="text-sm font-medium text-exceeded">
+        <p role="alert" className="text-sm font-medium text-exceeded-text">
           {errors.general}
         </p>
       )}

@@ -39,7 +39,7 @@ export function Field({
       <label htmlFor={htmlFor} className="text-sm font-medium">
         {label}
         {required && (
-          <span className="text-exceeded" aria-hidden="true">
+          <span className="text-exceeded-text" aria-hidden="true">
             {' '}
             *
           </span>
@@ -52,7 +52,7 @@ export function Field({
         </p>
       )}
       {error && (
-        <p id={errorId} role="alert" className="text-xs font-medium text-exceeded">
+        <p id={errorId} role="alert" className="text-xs font-medium text-exceeded-text">
           {error}
         </p>
       )}

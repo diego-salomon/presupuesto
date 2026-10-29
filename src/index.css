@@ -2,9 +2,17 @@
 
 /*
  * Design tokens. Colors are HSL triplets consumed as hsl(var(--token)).
- * --primary / --primary-foreground / --accent / --accent-foreground are set at
- * runtime from brand.config.ts (see applyBrandPalette); the values here are the
- * fallback used until that runs. Everything else is the (brand-neutral) system.
+ * --primary / --primary-foreground are set at runtime from brand.config.ts (see
+ * applyBrandPalette); the values here are the fallback until that runs. The brand
+ * color is the same hue in light and dark, so it is never re-themed per mode.
+ *
+ * Status colors come in two forms, because one color cannot do both jobs across
+ * light and dark:
+ *   --ok / --warning / --exceeded      solid FILLS (bars, badges, alerts) with a
+ *                                      paired *-foreground; dark enough for white
+ *                                      text, constant across modes.
+ *   --ok-text / --exceeded-text        colored TEXT on cards; mode-aware so it
+ *                                      keeps >= 4.5:1 on both backgrounds.
  */
 :root {
   color-scheme: light dark;
@@ -21,15 +29,15 @@
 
   --primary: 221 83% 53%;
   --primary-foreground: 0 0% 100%;
-  --accent: 221 83% 96%;
-  --accent-foreground: 221 83% 30%;
 
-  --ok: 142 68% 38%;
+  --ok: 142 72% 30%;
   --ok-foreground: 0 0% 100%;
+  --ok-text: 142 72% 28%;
   --warning: 38 92% 45%;
   --warning-foreground: 26 90% 12%;
-  --exceeded: 0 72% 48%;
+  --exceeded: 0 72% 42%;
   --exceeded-foreground: 0 0% 100%;
+  --exceeded-text: 0 72% 42%;
   --track: 214 32% 91%;
 
   --radius: 0.75rem;
@@ -42,17 +50,14 @@
     --card: 222 45% 14%;
     --card-foreground: 210 40% 98%;
     --muted: 217 33% 20%;
-    --muted-foreground: 215 20% 70%;
+    --muted-foreground: 215 20% 72%;
     --border: 217 33% 26%;
     --input: 217 33% 30%;
 
-    --accent: 221 55% 22%;
-    --accent-foreground: 210 40% 96%;
-
-    --ok: 142 60% 45%;
-    --warning: 38 92% 55%;
-    --warning-foreground: 26 90% 10%;
-    --exceeded: 0 72% 58%;
+    /* Fills stay constant (white text keeps >= 4.5:1); only the colored text lightens. */
+    --warning: 38 92% 52%;
+    --ok-text: 142 55% 62%;
+    --exceeded-text: 0 85% 72%;
     --track: 217 33% 26%;
   }
 }
@@ -69,14 +74,14 @@
   --color-ring: hsl(var(--ring));
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
   --color-ok: hsl(var(--ok));
   --color-ok-foreground: hsl(var(--ok-foreground));
+  --color-ok-text: hsl(var(--ok-text));
   --color-warning: hsl(var(--warning));
   --color-warning-foreground: hsl(var(--warning-foreground));
   --color-exceeded: hsl(var(--exceeded));
   --color-exceeded-foreground: hsl(var(--exceeded-foreground));
+  --color-exceeded-text: hsl(var(--exceeded-text));
   --color-track: hsl(var(--track));
 
   --radius-sm: calc(var(--radius) - 4px);
@@ -100,12 +105,43 @@
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
     font-family: var(--font-sans);
+    caret-color: hsl(var(--primary));
     -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background-color: hsl(var(--primary) / 0.24);
   }
   :focus-visible {
     outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
   }
+}
+
+/* One authored entrance for surfaces that appear on demand (dialogs). Compositor
+ * properties only; the reduced-motion rule below neutralizes the duration. */
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.animate-pop-in {
+  animation: pop-in 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.animate-fade-in {
+  animation: fade-in 150ms ease-out;
 }
 
 @media (prefers-reduced-motion: reduce) {

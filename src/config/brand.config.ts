@@ -16,8 +16,6 @@ export const brand: BrandConfig = {
   palette: {
     primary: '221 83% 53%',
     primaryForeground: '0 0% 100%',
-    accent: '221 83% 96%',
-    accentForeground: '221 83% 30%',
   },
 
   locale: 'es-MX',

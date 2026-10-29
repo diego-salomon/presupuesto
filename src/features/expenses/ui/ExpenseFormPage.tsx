@@ -35,7 +35,7 @@ export function ExpenseFormPage() {
 
   return (
     <section className="mx-auto max-w-xl">
-      <h2 className="mb-1 text-2xl font-bold tracking-tight">{editing ? 'Editar gasto' : 'Registrar gasto'}</h2>
+      <h1 className="mb-1 text-2xl font-bold tracking-tight">{editing ? 'Editar gasto' : 'Registrar gasto'}</h1>
       <p className="mb-5 text-sm text-muted-foreground">
         {editing ? 'Modifica los datos del gasto.' : 'Agrega un gasto y el total del mes se actualiza al instante.'}
       </p>
@@ -43,6 +43,7 @@ export function ExpenseFormPage() {
         categories={container.categories}
         initial={initial}
         submitLabel={editing ? 'Guardar cambios' : 'Agregar gasto'}
+        currencySymbol={container.formats.currency.symbol}
         onSubmit={onSubmit}
         onCancel={() => navigate(-1)}
       />

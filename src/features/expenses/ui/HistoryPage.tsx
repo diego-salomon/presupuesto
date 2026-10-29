@@ -23,7 +23,7 @@ export function HistoryPage() {
   return (
     <section className="flex flex-col gap-5">
       <header>
-        <h2 className="text-2xl font-bold tracking-tight">Historial</h2>
+        <h1 className="text-2xl font-bold tracking-tight">Historial</h1>
         <p className="text-sm text-muted-foreground">Todos los gastos registrados. El historial nunca se borra.</p>
       </header>
 

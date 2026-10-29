@@ -39,7 +39,7 @@ export function ExpenseList({ items, categoryIndex, onEdit, onDelete, emptyLabel
                   </Button>
                 )}
                 {onDelete && (
-                  <Button variant="ghost" className="px-3 text-exceeded" onClick={() => onDelete(expense)} aria-label={`Eliminar ${expense.description || 'gasto'}`}>
+                  <Button variant="ghost" className="px-3 text-exceeded-text" onClick={() => onDelete(expense)} aria-label={`Eliminar ${expense.description || 'gasto'}`}>
                     Eliminar
                   </Button>
                 )}

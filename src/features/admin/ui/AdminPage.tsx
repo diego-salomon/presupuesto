@@ -19,7 +19,7 @@ function AdminDashboard() {
   return (
     <section className="flex flex-col gap-5">
       <header className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight">Administración</h2>
+        <h1 className="text-2xl font-bold tracking-tight">Administración</h1>
         <Button variant="ghost" onClick={() => void container.admin.lock()}>
           Cerrar sesión
         </Button>
@@ -29,7 +29,7 @@ function AdminDashboard() {
 
       {container.mode === 'demo' && (
         <Card className="p-5">
-          <h3 className="text-lg font-semibold">Datos de ejemplo</h3>
+          <h2 className="text-lg font-semibold">Datos de ejemplo</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Restaura los presupuestos por defecto y regenera los gastos de ejemplo.
           </p>

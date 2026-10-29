@@ -17,7 +17,7 @@ export function BusinessInfoPage() {
   return (
     <section className="mx-auto flex max-w-xl flex-col gap-5">
       <header>
-        <h2 className="text-2xl font-bold tracking-tight">{brand.name}</h2>
+        <h1 className="text-2xl font-bold tracking-tight">{brand.name}</h1>
         <p className="text-sm text-muted-foreground">{brand.tagline}</p>
       </header>
 

@@ -7,7 +7,7 @@ function Delta({ value, money }: { value: number; money: (n: number) => string }
   if (value === 0) return <span className="tabular-nums text-muted-foreground">—</span>
   const up = value > 0
   return (
-    <span className={cn('tabular-nums font-medium', up ? 'text-exceeded' : 'text-ok')}>
+    <span className={cn('tabular-nums font-medium', up ? 'text-exceeded-text' : 'text-ok-text')}>
       {up ? '+' : '−'}
       {money(Math.abs(value))}
     </span>
@@ -19,7 +19,7 @@ export function ComparisonSection({ comparison }: { comparison: MonthComparison 
   return (
     <Card className="overflow-hidden">
       <div className="border-b px-4 py-3">
-        <h3 className="font-semibold">Comparación con el mes actual</h3>
+        <h2 className="font-semibold">Comparación con el mes actual</h2>
         <p className="text-xs text-muted-foreground">Diferencia de gasto por categoría (actual − anterior).</p>
       </div>
       <ul className="divide-y">
