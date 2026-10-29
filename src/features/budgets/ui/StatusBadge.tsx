@@ -4,7 +4,7 @@ import { STATUS_BADGE, STATUS_LABEL } from './statusStyles'
 
 export function StatusBadge({ status }: { status: BudgetStatus }) {
   return (
-    <span className={cn('inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold', STATUS_BADGE[status])}>
+    <span className={cn('inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-semibold', STATUS_BADGE[status])}>
       {STATUS_LABEL[status]}
     </span>
   )
