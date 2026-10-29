@@ -2,7 +2,7 @@
 
 # 💸 Presupuesto
 
-### A white-label budget tracker that warns a small business it's overspending — while there's still time to do something about it.
+### A white-label budget tracker that warns a small business when it's overspending.
 
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white&style=flat-square)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white&style=flat-square)](https://www.typescriptlang.org)
@@ -17,7 +17,7 @@
 
 <br>
 
-<img src="docs/assets/dashboard.jpg" width="840" alt="Monthly summary: total spend against the monthly budget, with each category shown as on-budget, close to the limit, or over." />
+<img src="docs/assets/dashboard.png" width="840" alt="Monthly summary: total spend against the monthly budget, with each category marked on budget, close to the limit, or over." />
 
 </div>
 
@@ -25,54 +25,52 @@
 
 ## The problem it solves
 
-Most expense apps tell you how you did **after** the month closes. By then the money is gone.
+Most expense apps report how the month went once it has closed. Presupuesto shows what a small business needs during the month: how much of the budget is left, and which categories are close to going over. A category turns amber at 80% and red once it passes its limit, so overspending is visible while there is still time to hold off on a purchase or adjust an order.
 
-Presupuesto shows the one thing a small business actually needs during the month: **how much of the budget is left, and which categories are about to blow past it.** A category turns amber at 80% and red when it goes over, so you see trouble while you can still cut back an order or hold off on a purchase.
-
-It's built to be handed to clients. The whole app is **white-label**: change two config files and the palette, and you have a running, branded demo for a business — with no backend to set up or maintain.
+The app is white-label. Change two config files and the palette, and you have a branded, working demo for a client, with no backend to set up or maintain.
 
 ## Who it's for
 
-- **Small-business owners** who keep the books in a notebook or a spreadsheet and want to know, mid-month, if they're on track — without learning accounting software.
-- **Freelancers and agencies** who build tools for small clients and want a finished, branded expense tracker to ship in an afternoon instead of rebuilding one every time.
+- **Small-business owners** who keep the books in a notebook or a spreadsheet and want to know mid-month whether they're on track, without learning accounting software.
+- **Freelancers and agencies** who build tools for small clients and want a finished, branded expense tracker to hand over in an afternoon instead of rebuilding one each time.
 
 ## What it does
 
 | | |
 |---|---|
-| 📊 | **Live budget status** — total spend vs. monthly budget, updated the moment you add an expense. |
-| 🚦 | **Early warnings** — each category is on-budget (green), close to the limit (amber at 80%), or over (red), so you react before the month ends. |
-| 🗂️ | **Spend by category** — see exactly where the money goes, not just a single total. |
-| 📅 | **Month on month** — this month next to the last, so a bad month stands out. |
-| 📱 | **Works on the phone** — mobile-first, so you can check it from the shop floor, not just the desk. |
-| 🎨 | **White-label in two files** — name, logo, colors, currency and locale, categories and budgets. Nothing is hard-coded. |
+| 📊 | **Live budget status.** Total spend against the monthly budget, updated the moment you add an expense. |
+| 🚦 | **Early warnings.** Each category reads as on budget (green), close to the limit (amber at 80%), or over (red). |
+| 🗂️ | **Spend by category.** See where the money goes, not just a single total. |
+| 📅 | **This month next to last.** The two side by side, so a bad month stands out. |
+| 📱 | **Works on the phone.** Mobile-first, so it's usable from the shop floor, not only the desk. |
+| 🎨 | **White-label in two files.** Name, logo, colors, currency and locale, categories and budgets. Nothing is hard-coded. |
 
 <div align="center">
 <br>
 <table>
 <tr>
-<td align="center" width="62%"><img src="docs/assets/dashboard.jpg" alt="Desktop: monthly summary with category cards" /><br><sub>The month at a glance, on desktop</sub></td>
-<td align="center" width="38%"><img src="docs/assets/mobile.jpg" alt="Mobile: the same summary, stacked for a phone" /><br><sub>And on the phone</sub></td>
+<td align="center" width="62%"><img src="docs/assets/dashboard.png" alt="Desktop: monthly summary with category cards" /><br><sub>The month at a glance, on desktop</sub></td>
+<td align="center" width="38%"><img src="docs/assets/mobile.png" alt="Mobile: the same summary, stacked for a phone" /><br><sub>And on the phone</sub></td>
 </tr>
 </table>
 </div>
 
 ## Make it yours (white-label)
 
-Everything client-specific lives in **two files**. No business name, color, currency or string is hard-coded anywhere else.
+Everything client-specific lives in two files. No business name, color, currency or string is hard-coded anywhere else.
 
-- [`src/config/brand.config.ts`](src/config/brand.config.ts) — name, tagline, logo, palette, **locale** and **currency** (these drive every number and date), and contact details.
-- [`src/config/presupuesto.config.ts`](src/config/presupuesto.config.ts) — categories, their monthly budgets, the warning threshold, the demo password, and the example data.
+- [`src/config/brand.config.ts`](src/config/brand.config.ts): name, tagline, logo, palette, locale and currency (these drive every number and date), and contact details.
+- [`src/config/presupuesto.config.ts`](src/config/presupuesto.config.ts): categories, their monthly budgets, the warning threshold, the demo password, and the example data.
 
 Fill those in, set the palette, and `pnpm dev` shows the client's full working demo.
 
 ## How it's built
 
-Clean architecture, feature-sliced, dependencies pointing inward only. The domain and application layers are pure and fully unit-tested — no framework, no I/O.
+Clean architecture, feature-sliced, dependencies pointing inward only. The domain and application layers are pure and fully unit-tested, with no framework and no I/O.
 
 ```
 src/
-  config/          white-label config (brand + presupuesto) — the only files a client edits
+  config/          white-label config (brand + presupuesto): the only files a client edits
   shared/          domain primitives (money, dates, Result), formatting, UI kit
   features/
     budgets/       budget status, monthly overview    ┐
@@ -84,10 +82,10 @@ src/
   infrastructure/  Supabase client
 ```
 
-The backend is hidden behind two small ports (`ExpenseRepository`, `BudgetRepository`). The **same code runs two ways**, chosen by one env variable:
+The backend sits behind two small ports (`ExpenseRepository`, `BudgetRepository`). The same code runs two ways, chosen by one env variable:
 
-- **Demo mode** (`VITE_MODE=demo`, default) — everything in the browser on `localStorage`, pre-seeded. For sales demos and portfolios.
-- **Live mode** (`VITE_MODE=live`) — a real [Supabase](https://supabase.com) backend (Postgres + Auth + Row Level Security).
+- **Demo mode** (`VITE_MODE=demo`, default): everything in the browser on `localStorage`, pre-seeded. For sales demos and portfolios.
+- **Live mode** (`VITE_MODE=live`): a real [Supabase](https://supabase.com) backend (Postgres, Auth, Row Level Security).
 
 Swapping one for the other changes no domain, application, or UI code.
 
@@ -114,7 +112,7 @@ A full working demo on `localStorage`, no backend needed.
    VITE_SUPABASE_ANON_KEY=xxxx
    ```
 
-3. Create a user in Supabase Auth — that's the admin login. `pnpm build` and deploy the `dist/` folder anywhere static.
+3. Create a user in Supabase Auth; that's the admin login. Run `pnpm build` and deploy the `dist/` folder anywhere static.
 
 All access is authenticated and RLS-scoped to the signed-in user; there is no public data surface. This template is single-tenant (one deployment per client); the schema comments note where a `tenant_id` would go for a shared deployment.
 
@@ -140,12 +138,12 @@ The [live demo](https://diego-salomon.github.io/presupuesto/) is built and publi
 ## Testing
 
 - **Vitest** covers domain and application: status thresholds at their exact boundaries, monthly rollover isolation, input validation, history search, the seed story, and the repositories.
-- **Playwright** covers the user flows: add expense → category total and status update, crossing 80% → warning, exceeding → red + alert, month-boundary isolation.
+- **Playwright** covers the user flows: adding an expense updates the category total and status, crossing 80% raises a warning, exceeding turns the category red with an alert, and the month boundary keeps each month separate.
 
 Mobile-first, WCAG AA, light and dark, reduced-motion, nothing clipped at 375px.
 
 ---
 
 <div align="center">
-<sub>Built by <a href="https://github.com/diego-salomon">Diego Salomón</a> — an operator who builds the tools he wishes he'd had. · <a href="https://www.linkedin.com/in/diegosalomon">LinkedIn</a></sub>
+<sub>Built by <a href="https://github.com/diego-salomon">Diego Salomón</a>, an operator who builds the tools he wishes he'd had. · <a href="https://www.linkedin.com/in/diegosalomon">LinkedIn</a></sub>
 </div>
