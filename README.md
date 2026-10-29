@@ -4,6 +4,9 @@ White-label expense and budget tracker for small businesses. Log expenses by
 category and see, at any point in the month, spend vs. monthly budget with early
 warnings.
 
+**[▶ Live demo](https://diego-salomon.github.io/presupuesto/)** — runs entirely
+in the browser, no sign-up, no backend.
+
 The same code runs two ways, selected by one env variable:
 
 - **Demo mode** (`VITE_MODE=demo`, the default) — everything in the browser on
@@ -108,3 +111,16 @@ swapping localStorage for Supabase changes no domain, application, or UI code.
 
 Design: mobile-first, WCAG AA, light + dark, reduced-motion, nothing clipped at
 375px.
+
+## Deployment (GitHub Pages)
+
+The [live demo](https://diego-salomon.github.io/presupuesto/) is built and
+published on every push to `main` by
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml):
+
+- the landing page ([`landing/`](landing/)) is served at the site root;
+- the demo app is built with base `/presupuesto/demo/` and served under `/demo/`.
+
+Demo mode needs no backend, so the whole thing is static. The router derives its
+basename from Vite's base URL, so the same build runs at the domain root (dev)
+and under a subpath (Pages).

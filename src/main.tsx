@@ -15,13 +15,17 @@ document.title = brand.name
 const container = createContainer({ brand, config: presupuesto })
 const root = createRoot(document.getElementById('root') as HTMLElement)
 
+// Derive the router basename from Vite's base URL, so the same build works at
+// the domain root (dev) and under a subpath (GitHub Pages at /presupuesto/demo/).
+const basename = import.meta.env.BASE_URL.replace(/\/+$/, '') || '/'
+
 container
   .boot()
   .then(() => {
     root.render(
       <StrictMode>
         <ContainerProvider container={container}>
-          <BrowserRouter>
+          <BrowserRouter basename={basename}>
             <App />
           </BrowserRouter>
         </ContainerProvider>

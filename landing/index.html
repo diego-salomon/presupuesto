@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Presupuesto — control de gastos white-label</title>
+<meta name="description" content="Control de gastos y presupuesto para negocios pequeños. Gasto vs. presupuesto mensual, con aviso temprano. Se re-marca editando dos archivos. Demo en vivo, sin instalar." />
+<meta property="og:title" content="Presupuesto — control de gastos white-label" />
+<meta property="og:description" content="Gasto vs. presupuesto del mes, con aviso temprano. White-label en dos archivos. Demo en vivo, sin backend." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="screenshot.jpg" />
+<style>
+  :root {
+    --bg: 0 0% 100%;
+    --fg: 222 47% 11%;
+    --muted: 215 16% 42%;
+    --card: 0 0% 100%;
+    --border: 214 32% 91%;
+    --primary: 221 83% 53%;
+    --primary-fg: 0 0% 100%;
+    --ok: 142 72% 30%;
+    --warning: 38 92% 42%;
+    --exceeded: 0 72% 42%;
+    --soft: 221 83% 97%;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: 222 47% 7%;
+      --fg: 210 40% 96%;
+      --muted: 215 20% 65%;
+      --card: 222 40% 11%;
+      --border: 215 28% 20%;
+      --primary: 217 91% 60%;
+      --primary-fg: 222 47% 11%;
+      --ok: 142 60% 45%;
+      --warning: 38 92% 55%;
+      --exceeded: 0 72% 60%;
+      --soft: 222 40% 14%;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: hsl(var(--fg));
+    background: hsl(var(--bg));
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-weight: 600; font-size: 1rem;
+    padding: .75rem 1.25rem; border-radius: .75rem;
+    text-decoration: none; border: 1px solid transparent;
+    transition: transform .1s ease, background-color .15s ease, border-color .15s ease;
+  }
+  .btn:active { transform: scale(.98); }
+  .btn-primary { background: hsl(var(--primary)); color: hsl(var(--primary-fg)); }
+  .btn-primary:hover { background: hsl(var(--primary) / .9); }
+  .btn-ghost { border-color: hsl(var(--border)); background: hsl(var(--card)); }
+  .btn-ghost:hover { border-color: hsl(var(--primary)); }
+  .btn:focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 2px; }
+
+  header.hero { padding: clamp(3rem, 10vw, 6rem) 0 2rem; text-align: center; }
+  .eyebrow {
+    display: inline-block; font-size: .8rem; font-weight: 600; letter-spacing: .04em;
+    text-transform: uppercase; color: hsl(var(--primary));
+    background: hsl(var(--soft)); padding: .3rem .7rem; border-radius: 999px;
+  }
+  h1 {
+    font-size: clamp(2.2rem, 7vw, 3.6rem); line-height: 1.05;
+    letter-spacing: -0.02em; margin: 1rem 0 .5rem; font-weight: 800;
+  }
+  .lede { font-size: clamp(1.05rem, 2.5vw, 1.3rem); color: hsl(var(--muted)); max-width: 42ch; margin: 0 auto; }
+  .cta { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; margin-top: 1.75rem; }
+  .note { font-size: .85rem; color: hsl(var(--muted)); margin-top: .9rem; }
+
+  .shot { margin: 2.5rem auto 0; }
+  .shot img {
+    width: 100%; height: auto; display: block; border-radius: 1rem;
+    border: 1px solid hsl(var(--border));
+    box-shadow: 0 20px 50px -20px hsl(var(--fg) / .25);
+  }
+
+  section { padding: clamp(2.5rem, 7vw, 4rem) 0; }
+  h2 { font-size: clamp(1.5rem, 4vw, 2rem); letter-spacing: -0.01em; margin: 0 0 1.5rem; font-weight: 700; }
+  .grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } }
+  .card {
+    background: hsl(var(--card)); border: 1px solid hsl(var(--border));
+    border-radius: 1rem; padding: 1.5rem;
+  }
+  .card h3 { margin: 0 0 .4rem; font-size: 1.15rem; font-weight: 700; }
+  .card p { margin: 0; color: hsl(var(--muted)); }
+
+  .states { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+  .pill { font-size: .8rem; font-weight: 700; padding: .3rem .7rem; border-radius: 999px; color: #fff; }
+  .pill.ok { background: hsl(var(--ok)); }
+  .pill.warn { background: hsl(var(--warning)); }
+  .pill.over { background: hsl(var(--exceeded)); }
+
+  .stack { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .tag {
+    font-size: .85rem; font-weight: 600; padding: .35rem .75rem;
+    border: 1px solid hsl(var(--border)); border-radius: .6rem; color: hsl(var(--muted));
+    background: hsl(var(--card));
+  }
+
+  pre {
+    background: hsl(var(--soft)); border: 1px solid hsl(var(--border));
+    border-radius: .75rem; padding: 1rem 1.25rem; overflow-x: auto;
+    font-size: .9rem; margin: 1rem 0 0;
+  }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+  footer { border-top: 1px solid hsl(var(--border)); padding: 2rem 0 3rem; text-align: center; color: hsl(var(--muted)); font-size: .9rem; }
+  footer a { color: hsl(var(--primary)); text-decoration: none; font-weight: 600; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } .btn:active { transform: none; } }
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <span class="eyebrow">Proyecto · React + TypeScript</span>
+      <h1>Presupuesto</h1>
+      <p class="lede">Control de gastos para negocios pequeños que, a mitad de mes, ya te dice si vas pasado del presupuesto.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="demo/">Probar el demo</a>
+        <a class="btn btn-ghost" href="https://github.com/diego-salomon/presupuesto">Ver el código</a>
+      </div>
+      <p class="note">El demo corre entero en tu navegador. Sin registro, sin instalar nada.</p>
+      <div class="shot">
+        <img src="screenshot.jpg" width="800" height="609" alt="Pantalla de Presupuesto: el resumen del mes, con el gasto total y cada categoría marcada en verde, amarillo o rojo según el presupuesto." />
+      </div>
+    </header>
+
+    <section>
+      <h2>Qué resuelve</h2>
+      <p style="color: hsl(var(--muted)); max-width: 60ch; margin: 0;">
+        La mayoría de los negocios pequeños revisan sus gastos al cierre del mes, cuando ya no hay nada que hacer.
+        Presupuesto muestra, en cada momento, cuánto llevas gastado contra tu presupuesto mensual por categoría,
+        y marca en amarillo lo que se acerca al límite y en rojo lo que ya se pasó.
+      </p>
+      <div class="states">
+        <span class="pill ok">En presupuesto</span>
+        <span class="pill warn">Cerca del límite</span>
+        <span class="pill over">Excedido</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Lo que lo hace distinto</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>White-label en dos archivos</h3>
+          <p>El nombre del negocio, los colores, las categorías, los presupuestos y los datos de ejemplo viven en dos archivos de configuración. Nada está escrito a mano en el resto del código.</p>
+        </div>
+        <div class="card">
+          <h3>Dos modos, un mismo código</h3>
+          <p>Modo demo en <code>localStorage</code> para mostrar y para portafolio. Modo real con Supabase (Postgres, Auth, RLS) cambiando una variable de entorno.</p>
+        </div>
+        <div class="card">
+          <h3>Arquitectura por capas</h3>
+          <p>Dominio puro y testeado, aplicación, infraestructura detrás de puertos, y UI. Cambiar de <code>localStorage</code> a Supabase no toca la lógica de negocio.</p>
+        </div>
+        <div class="card">
+          <h3>Probado y accesible</h3>
+          <p>139 tests unitarios y 4 end-to-end. Contraste WCAG AA, navegación por teclado, modo claro y oscuro, y respeto por <code>reduced-motion</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Stack</h2>
+      <div class="stack">
+        <span class="tag">React 19</span>
+        <span class="tag">TypeScript (strict)</span>
+        <span class="tag">Vite</span>
+        <span class="tag">React Router 7</span>
+        <span class="tag">Tailwind CSS 4</span>
+        <span class="tag">Vitest</span>
+        <span class="tag">Playwright</span>
+        <span class="tag">Supabase</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Cómo probarlo</h2>
+      <p style="color: hsl(var(--muted)); margin: 0;">Ábrelo en vivo, o clónalo y córrelo en tu máquina:</p>
+      <pre><code>git clone https://github.com/diego-salomon/presupuesto.git
+cd presupuesto
+pnpm install
+pnpm dev            # demo en localhost:5173</code></pre>
+      <div class="cta" style="justify-content: flex-start; margin-top: 1.5rem;">
+        <a class="btn btn-primary" href="demo/">Abrir el demo</a>
+        <a class="btn btn-ghost" href="https://github.com/diego-salomon/presupuesto">Repositorio</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      Hecho por Diego Salomon · <a href="https://github.com/diego-salomon/presupuesto">github.com/diego-salomon/presupuesto</a>
+    </div>
+  </footer>
+</body>
+</html>
